@@ -11,7 +11,22 @@ bool point_AABBTree_squared_distance(
 {
   ////////////////////////////////////////////////////////////////////////////
   // Replace with your code here
+  ////////////////////////////////////////////////////////////////////////////
+  
+  // hard but simple problem
+
+  // iterative
+  // best-first seach
+  // priority queue for minimum distane bookkeeping
+
+  // tree contains boxes which we know the min distance to
+  // add boxes to queue
+  // pop the closest one, if it is a leaf, you are done
+  // add children to queue
+  // repeat
+
+  
+  
   sqrd = 0;
   return false;
-  ////////////////////////////////////////////////////////////////////////////
 }

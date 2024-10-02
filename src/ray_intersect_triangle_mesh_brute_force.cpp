@@ -17,3 +17,35 @@ bool ray_intersect_triangle_mesh_brute_force(
   return false;
   ////////////////////////////////////////////////////////////////////////////
 }
+
+
+/// PREV ASSIGNMENT
+
+
+bool TriangleSoup::intersect(
+  const Ray & ray, const double min_t, double & t, Eigen::Vector3d & n) const
+{
+  ////////////////////////////////////////////////////////////////////////////
+  // Replace with your code here:
+  ////////////////////////////////////////////////////////////////////////////
+  // Eigen::Vector3d cur_n;
+  // double cur_t;
+  // bool collision = false;
+
+  // t = INFINITY;
+
+  // for (int i = 0; i < this->triangles.size(); i++) {
+  //   if (! this->triangles[i]->intersect(ray, min_t, cur_t, cur_n)) {
+  //     continue;
+  //   }
+    
+  //   collision = true;
+  //   if (cur_t < t) {
+  //     t = cur_t;
+  //     n = cur_n;
+  //   }
+  // }
+  int hit_id;  
+  return first_hit(ray, min_t, this->triangles, hit_id, t, n);
+}
+

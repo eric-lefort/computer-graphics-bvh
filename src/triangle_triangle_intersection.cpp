@@ -10,6 +10,10 @@ bool triangle_triangle_intersection(
 {
   ////////////////////////////////////////////////////////////////////////////
   // Replace with your code here:
-  return false; 
   ////////////////////////////////////////////////////////////////////////////
+  
+  // fast triangle-triangle intersection test
+  // https://web.stanford.edu/class/cs277/resources/papers/Moller1997b.pdf
+  
+  return false; 
 }
