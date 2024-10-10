@@ -1,5 +1,7 @@
 #include "ray_intersect_triangle_mesh_brute_force.h"
 #include "ray_intersect_triangle.h"
+#include <limits>
+#include <cmath>
 
 bool ray_intersect_triangle_mesh_brute_force(
   const Ray & ray,
@@ -12,40 +14,25 @@ bool ray_intersect_triangle_mesh_brute_force(
 {
   ////////////////////////////////////////////////////////////////////////////
   // Replace with your code here:
-  hit_t = 0;
-  hit_f = 0;
-  return false;
+  hit_t = std::numeric_limits<double>::infinity();
+  Eigen::RowVector3i triangle;
+  double hit_t_tmp;
+  for (int tri_id = 0; tri_id < F.rows(); tri_id++) {
+    triangle = F.row(tri_id);
+    if (ray_intersect_triangle(
+      ray, 
+      V.row(triangle(0)), // A
+      V.row(triangle(1)), // B
+      V.row(triangle(2)), // C
+      min_t, 
+      max_t, 
+      hit_t_tmp) && hit_t_tmp < hit_t) 
+    {
+      hit_t = hit_t_tmp;
+      hit_f = tri_id;
+    }
+  }
+
+  return !std::isinf(hit_t);
   ////////////////////////////////////////////////////////////////////////////
 }
-
-
-/// PREV ASSIGNMENT
-
-
-bool TriangleSoup::intersect(
-  const Ray & ray, const double min_t, double & t, Eigen::Vector3d & n) const
-{
-  ////////////////////////////////////////////////////////////////////////////
-  // Replace with your code here:
-  ////////////////////////////////////////////////////////////////////////////
-  // Eigen::Vector3d cur_n;
-  // double cur_t;
-  // bool collision = false;
-
-  // t = INFINITY;
-
-  // for (int i = 0; i < this->triangles.size(); i++) {
-  //   if (! this->triangles[i]->intersect(ray, min_t, cur_t, cur_n)) {
-  //     continue;
-  //   }
-    
-  //   collision = true;
-  //   if (cur_t < t) {
-  //     t = cur_t;
-  //     n = cur_n;
-  //   }
-  // }
-  int hit_id;  
-  return first_hit(ray, min_t, this->triangles, hit_id, t, n);
-}
-

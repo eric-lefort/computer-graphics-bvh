@@ -1,4 +1,5 @@
 #include "ray_intersect_triangle.h"
+#include <Eigen/Dense>
 
 bool ray_intersect_triangle(
   const Ray & ray,
@@ -9,34 +10,9 @@ bool ray_intersect_triangle(
   const double max_t,
   double & t)
 {
-  ////////////////////////////////////////////////////////////////////////////
-  // Replace with your code here:
-  t = 0;
-  return false;
-  ////////////////////////////////////////////////////////////////////////////
-}
-
-
-
-///// PREV ASSIGNMENT
-
-
-
-bool Triangle::intersect(
-  const Ray & ray, const double min_t, double & t, Eigen::Vector3d & n) const
-{
-  ////////////////////////////////////////////////////////////////////////////
-  // Replace with your code here:
-  ////////////////////////////////////////////////////////////////////////////
-  
-  Eigen::Vector3d a, b, c, x;
-  double beta, gamma;
-  a = std::get<0>(this->corners);
-  b = std::get<1>(this->corners);
-  c = std::get<2>(this->corners);
-
-  // early terminate if ray is parallel to plane
-  n = (b-a).cross(c-a);
+  // normal
+  Eigen::RowVector3d x;
+  Eigen::RowVector3d n = (B - A).cross(C-A);
   if (n.dot(ray.direction) == 0) {
     return false;
   }
@@ -44,18 +20,19 @@ bool Triangle::intersect(
   n /= n.norm();
 
   Eigen::Matrix3d m;
-  m.col(0) = a-b;
-  m.col(1) = a-c;
+  m.col(0) = A-B;
+  m.col(1) = A-C;
   m.col(2) = ray.direction;
 
-  x = m.colPivHouseholderQr().solve(a - ray.origin);
-  beta = x[0];
-  gamma = x[1];
+  x = m.colPivHouseholderQr().solve(A.transpose() - ray.origin).transpose();
+  double beta = x[0];
+  double gamma = x[1];
   t = x[2];
 
-  if ((t < min_t) || !(beta > 0 && gamma > 0 && beta + gamma < 1)) {
+  if ((t < min_t) || t > max_t || !(beta > 0 && gamma > 0 && beta + gamma < 1)) {
     return false;
   }
 
   return true;
+  ////////////////////////////////////////////////////////////////////////////
 }
